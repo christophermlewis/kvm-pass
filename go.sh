@@ -1,6 +1,6 @@
 #!/bin/bash 
 packages() { 
-  apt-get install qemu-kvm, bridge-utils 
+  apt-get install qemu-kvm bridge-utils 
 }
 
 kernel_modules() {
@@ -16,7 +16,7 @@ grub_options() {
 
 bridge_network() {
   sed s/iface\ eth0\ inet\ dhcp/iface\ eth0\ inet\ manual
-  printf 'iface br0 inet dhcp\n  bridge_ports eth0\n  bridge_fd 0\n  bridge_maxwait 0\n  bridge_stp on' > br0
+  printf 'iface br0 inet dhcp\n  bridge_ports eth0\n  bridge_fd 0\n  bridge_maxwait 0\n  bridge_stp on' > /etc/network/interfaces.d/br0
   echo 'allow br0' > /etc/qemu/bridge.conf
 }
 
@@ -48,7 +48,7 @@ qemu-system-x86_64 -enable-kvm  -M q35 -m 8024 -cpu host -smp 4 \
 
 }
 
-#packages
-#kernel_modules
+packages
+kernel_modules
 grub_options
 #bridge_network
